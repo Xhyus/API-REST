@@ -73,10 +73,26 @@ const obtenerUsuarioPopulate = (req, res) => {
     })
 }
 
+const actualizarUsuario = (req, res) => {
+    const { id } = req.params
+    Usuarios.findByIdAndUpdate(id, req.body, (err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al actualizar usuario" })
+        }
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
+        }
+        if (usuario) {
+            res.status(200).send({ "mensaje": "Usuario actualizado", "usuario": usuario })
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuarios,
     obtenerUsuario,
     obtenerUsuariosPopulate,
     obtenerUsuarioPopulate,
+    actualizarUsuario
 }
