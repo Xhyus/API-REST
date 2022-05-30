@@ -29,7 +29,23 @@ const obtenerLibros = (req, res) => {
     });
 }
 
+const obtenerLibro = (req, res) => {
+    const { id } = req.params;
+    Libros.findById(id, (err, libro) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener libro" })
+        }
+        if (!libro) {
+            res.status(404).send({ "mensaje": "Libro no encontrado" })
+        }
+        if (libro) {
+            res.status(200).send({ "mensaje": "Libro obtenido", "libro": libro })
+        }
+    })
+}
+
 module.exports = {
     registrarLibro,
-    obtenerLibros
+    obtenerLibros,
+    obtenerLibro
 }
