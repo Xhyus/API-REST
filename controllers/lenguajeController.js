@@ -72,11 +72,26 @@ const eliminarLenguaje = (req, res) => {
     })
 }
 
+const obtenerLenguajePorNombre = (req, res) => {
+    const { nombreLenguaje } = req.params;
+    Lenguajes.findOne({ nombreLenguaje }, (err, lenguaje) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener lenguaje" });
+        }
+        if (!lenguaje) {
+            res.status(404).send({ "mensaje": "Lenguaje no encontrado" });
+        }
+        if (lenguaje) {
+            res.status(200).send({ "mensaje": "Lenguaje obtenido", "lenguaje": lenguaje });
+        }
+    })
+}
+
 module.exports = {
     registrarLenguaje,
     obtenerLenguajes,
     obtenerLenguaje,
     actualizarLenguaje,
     eliminarLenguaje,
-
+    obtenerLenguajePorNombre
 }
