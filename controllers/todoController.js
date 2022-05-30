@@ -85,11 +85,28 @@ const actualizarTodo = (req, res) => {
     })
 }
 
+const eliminarTodo = (req, res) => {
+    const { id } = req.params;
+    ToDoS.findByIdAndDelete(id, (err, todo) => {
+        if (err) {
+            res.status(400).send({ "mensaje": `Error al eliminar el ToDo` });
+        }
+        if (!todo) {
+            res.status(400).send({ "mensaje": `No existe el ToDo` });
+        }
+        if (todo) {
+            res.send({ "mensaje": "Se ha eliminado el ToDo", "ToDo": todo });
+        }
+    })
+}
+
+
 module.exports = {
     crearTodo,
     obtenerTodos,
     obtenerTodo,
     ObtenerTodosPopulate,
     ObtenerTodoPopulate,
-    actualizarTodo
+    actualizarTodo,
+    eliminarTodo,
 }
