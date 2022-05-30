@@ -44,9 +44,21 @@ const obtenerTodo = (req, res) => {
     })
 }
 
+const ObtenerTodosPopulate = (req, res) => {
+    ToDoS.find({}).populate('Libro').exec((err, todos) => {
+        if (err) {
+            res.status(400).send({ "mensaje": `Error al obtener los ToDos` });
+        }
+        if (todos) {
+            res.send({ "mensaje": "Se han obtenido los ToDos", "ToDos": todos });
+        }
+    })
+}
+
 
 module.exports = {
     crearTodo,
     obtenerTodos,
-    obtenerTodo
+    obtenerTodo,
+    ObtenerTodosPopulate
 }
