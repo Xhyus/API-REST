@@ -18,6 +18,18 @@ const crearTodo = (req, res) => {
     })
 }
 
+const obtenerTodos = (req, res) => {
+    ToDoS.find({}, (err, todos) => {
+        if (err) {
+            res.status(400).send({ message: `Error al obtener los ToDos` });
+        }
+        if (todos) {
+            res.send({ "mensaje": "Se han obtenido los ToDos", "ToDos": todos });
+        }
+    })
+}
+
 module.exports = {
-    crearTodo
+    crearTodo,
+    obtenerTodos
 }
