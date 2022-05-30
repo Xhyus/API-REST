@@ -21,6 +21,18 @@ const crearUsuario = async (req, res) => {
     })
 }
 
+const obtenerUsuarios = (req, res) => {
+    Usuarios.find({}, (err, usuarios) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener usuarios" })
+        }
+        if (usuarios) {
+            res.status(200).send({ "mensaje": "Usuarios obtenidos", "usuarios": usuarios })
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
+    obtenerUsuarios
 }
