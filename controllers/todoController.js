@@ -36,7 +36,7 @@ const obtenerTodo = (req, res) => {
             res.status(400).send({ "mensaje": `Error al obtener el ToDo` });
         }
         if (!todo) {
-            res.status(400).send({ "mensaje": `No existe el ToDo` });
+            res.status(404).send({ "mensaje": `No existe el ToDo` });
         }
         if (todo) {
             res.send({ "mensaje": "Se ha obtenido el ToDo", "ToDo": todo });
@@ -62,7 +62,7 @@ const ObtenerTodoPopulate = (req, res) => {
             res.status(400).send({ "mensaje": `Error al obtener el ToDo` });
         }
         if (!todo) {
-            res.status(400).send({ "mensaje": `No existe el ToDo` });
+            res.status(404).send({ "mensaje": `No existe el ToDo` });
         }
         if (todo) {
             res.send({ "mensaje": "Se ha obtenido el ToDo", "ToDo": todo });
@@ -77,7 +77,7 @@ const actualizarTodo = (req, res) => {
             res.status(400).send({ "mensaje": `Error al actualizar el ToDo` });
         }
         if (!todo) {
-            res.status(400).send({ "mensaje": `No existe el ToDo` });
+            res.status(404).send({ "mensaje": `No existe el ToDo` });
         }
         if (todo) {
             res.send({ "mensaje": "Se ha actualizado el ToDo", "ToDo": todo });
@@ -92,7 +92,7 @@ const eliminarTodo = (req, res) => {
             res.status(400).send({ "mensaje": `Error al eliminar el ToDo` });
         }
         if (!todo) {
-            res.status(400).send({ "mensaje": `No existe el ToDo` });
+            res.status(404).send({ "mensaje": `No existe el ToDo` });
         }
         if (todo) {
             res.send({ "mensaje": "Se ha eliminado el ToDo", "ToDo": todo });
