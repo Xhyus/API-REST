@@ -45,7 +45,7 @@ const obtenerTodo = (req, res) => {
 }
 
 const ObtenerTodosPopulate = (req, res) => {
-    ToDoS.find({}).populate('Libro').exec((err, todos) => {
+    ToDoS.find({}).populate('Libro Lenguaje Idioma').exec((err, todos) => {
         if (err) {
             res.status(400).send({ "mensaje": `Error al obtener los ToDos` });
         }
@@ -57,7 +57,7 @@ const ObtenerTodosPopulate = (req, res) => {
 
 const ObtenerTodoPopulate = (req, res) => {
     const { id } = req.params;
-    ToDoS.findById(id).populate('Libro').exec((err, todo) => {
+    ToDoS.findById(id).populate('Libro Lenguaje Idioma').exec((err, todo) => {
         if (err) {
             res.status(400).send({ "mensaje": `Error al obtener el ToDo` });
         }
@@ -99,7 +99,6 @@ const eliminarTodo = (req, res) => {
         }
     })
 }
-
 
 module.exports = {
     crearTodo,
