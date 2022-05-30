@@ -15,6 +15,18 @@ const registrarIdioma = (req, res) => {
     });
 }
 
+const obtenerIdiomas = (req, res) => {
+    Idiomas.find({}, (err, idiomas) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener idiomas" });
+        }
+        if (idiomas) {
+            res.status(200).send({ "mensaje": "Idiomas obtenidos", "idiomas": idiomas });
+        }
+    });
+}
+
 module.exports = {
-    registrarIdioma
+    registrarIdioma,
+    obtenerIdiomas
 }
