@@ -86,11 +86,27 @@ const actualizarExperiencia = (req, res) => {
     })
 }
 
+const eliminarExperiencia = (req, res) => {
+    const { id } = req.params
+    Experiencias.findByIdAndDelete(id, (err, experiencia) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al eliminar experiencia" })
+        }
+        if (!experiencia) {
+            res.status(404).send({ "mensaje": "No existe experiencia" })
+        }
+        if (experiencia) {
+            res.status(200).send({ "mensaje": "Experiencia eliminada", "experiencia": experiencia });
+        }
+    })
+}
+
 module.exports = {
     registrarExperiencia,
     obtenerExperiencias,
     obtenerExperiencia,
     obtenerExperienciasPopulate,
     obtenerExperienciaPopulate,
-    actualizarExperiencia
+    actualizarExperiencia,
+    eliminarExperiencia
 }
