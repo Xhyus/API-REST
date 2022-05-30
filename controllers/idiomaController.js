@@ -57,9 +57,25 @@ const actualizarIdioma = (req, res) => {
     })
 }
 
+const eliminarIdioma = (req, res) => {
+    const { id } = req.params;
+    Idiomas.findByIdAndDelete(id, (err, idioma) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al eliminar idioma" });
+        }
+        if (!idioma) {
+            res.status(404).send({ "mensaje": "Idioma no encontrado" });
+        }
+        if (idioma) {
+            res.status(200).send({ "mensaje": "Idioma eliminado", "idioma": idioma });
+        }
+    })
+}
+
 module.exports = {
     registrarIdioma,
     obtenerIdiomas,
     obtenerIdioma,
-    actualizarIdioma
+    actualizarIdioma,
+    eliminarIdioma
 }
