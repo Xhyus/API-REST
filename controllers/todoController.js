@@ -70,10 +70,26 @@ const ObtenerTodoPopulate = (req, res) => {
     })
 }
 
+const actualizarTodo = (req, res) => {
+    const { id } = req.params;
+    ToDoS.findByIdAndUpdate(id, req.body, (err, todo) => {
+        if (err) {
+            res.status(400).send({ "mensaje": `Error al actualizar el ToDo` });
+        }
+        if (!todo) {
+            res.status(400).send({ "mensaje": `No existe el ToDo` });
+        }
+        if (todo) {
+            res.send({ "mensaje": "Se ha actualizado el ToDo", "ToDo": todo });
+        }
+    })
+}
+
 module.exports = {
     crearTodo,
     obtenerTodos,
     obtenerTodo,
     ObtenerTodosPopulate,
-    ObtenerTodoPopulate
+    ObtenerTodoPopulate,
+    actualizarTodo
 }
