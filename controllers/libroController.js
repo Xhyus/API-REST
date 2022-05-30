@@ -44,8 +44,24 @@ const obtenerLibro = (req, res) => {
     })
 }
 
+const actualizarLibro = (req, res) => {
+    const { id } = req.params;
+    Libros.findByIdAndUpdate(id, req.body, (err, libro) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al actualizar libro" })
+        }
+        if (!libro) {
+            res.status(404).send({ "mensaje": "Libro no encontrado" })
+        }
+        if (libro) {
+            res.status(200).send({ "mensaje": "Libro actualizado", "libro": libro })
+        }
+    })
+}
+
 module.exports = {
     registrarLibro,
     obtenerLibros,
-    obtenerLibro
+    obtenerLibro,
+    actualizarLibro
 }
