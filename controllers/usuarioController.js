@@ -1,4 +1,5 @@
 const Usuarios = require('../models/usuario')
+const servicio = require('../services/token')
 
 const crearUsuario = async (req, res) => {
     const passHash = await bcrypt.hash(req.body.password, 10)
@@ -136,9 +137,6 @@ const cambiarPassword = async (req, res) => {
             res.status(404).send({ "mensaje": "No existe usuario" })
         }
         if (usuario) {
-            if (usuario.password === password) {
-                res.status(400).send({ "mensaje": "La contraseña no puede ser igual a la anterior" })
-            }
             const validPass = bcrypt.compare(password, usuario.password)
             if (!validPass) {
                 res.status(401).send({ "mensaje": "Contraseña incorrecta" })
@@ -161,7 +159,6 @@ const cambiarPassword = async (req, res) => {
         }
     })
 }
-
 
 module.exports = {
     crearUsuario,
