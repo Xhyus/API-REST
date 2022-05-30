@@ -74,6 +74,7 @@ const eliminarLenguaje = (req, res) => {
 
 const obtenerLenguajePorNombre = (req, res) => {
     const { nombreLenguaje } = req.params;
+
     Lenguajes.findOne({ nombreLenguaje }, (err, lenguaje) => {
         if (err) {
             res.status(400).send({ "mensaje": "Error al obtener lenguaje" });
