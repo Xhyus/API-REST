@@ -55,10 +55,25 @@ const ObtenerTodosPopulate = (req, res) => {
     })
 }
 
+const ObtenerTodoPopulate = (req, res) => {
+    const { id } = req.params;
+    ToDoS.findById(id).populate('Libro').exec((err, todo) => {
+        if (err) {
+            res.status(400).send({ "mensaje": `Error al obtener el ToDo` });
+        }
+        if (!todo) {
+            res.status(400).send({ "mensaje": `No existe el ToDo` });
+        }
+        if (todo) {
+            res.send({ "mensaje": "Se ha obtenido el ToDo", "ToDo": todo });
+        }
+    })
+}
 
 module.exports = {
     crearTodo,
     obtenerTodos,
     obtenerTodo,
-    ObtenerTodosPopulate
+    ObtenerTodosPopulate,
+    ObtenerTodoPopulate
 }
