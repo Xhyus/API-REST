@@ -58,9 +58,25 @@ const obtenerUsuariosPopulate = (req, res) => {
     })
 }
 
+const obtenerUsuarioPopulate = (req, res) => {
+    const { id } = req.params
+    Usuarios.findById(id).populate('Experiencias ToDo').exec((err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener usuario" })
+        }
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
+        }
+        if (usuario) {
+            res.status(200).send({ "mensaje": "Usuario obtenido", "usuario": usuario });
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuarios,
     obtenerUsuario,
     obtenerUsuariosPopulate,
+    obtenerUsuarioPopulate,
 }
