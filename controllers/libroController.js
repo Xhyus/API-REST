@@ -59,9 +59,26 @@ const actualizarLibro = (req, res) => {
     })
 }
 
+const eliminarLibro = (req, res) => {
+    const { id } = req.params;
+    Libros.findByIdAndDelete(id, (err, libro) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al eliminar libro" })
+        }
+        if (!libro) {
+            res.status(404).send({ "mensaje": "Libro no encontrado" })
+        }
+        if (libro) {
+            res.status(200).send({ "mensaje": "Libro eliminado", "libro": libro })
+        }
+    })
+}
+
+
 module.exports = {
     registrarLibro,
     obtenerLibros,
     obtenerLibro,
-    actualizarLibro
+    actualizarLibro,
+    eliminarLibro
 }
