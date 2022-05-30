@@ -30,7 +30,23 @@ const obtenerExperiencias = (req, res) => {
     });
 }
 
+const obtenerExperiencia = (req, res) => {
+    const { id } = req.params;
+    Experiencias.findById(id, (err, experiencia) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener experiencia" });
+        }
+        if (!experiencia) {
+            res.status(400).send({ "mensaje": "No existe experiencia" });
+        }
+        if (experiencia) {
+            res.status(200).send({ "mensaje": "Experiencia obtenida", "experiencia": experiencia });
+        }
+    });
+}
+
 module.exports = {
     registrarExperiencia,
-    obtenerExperiencias
+    obtenerExperiencias,
+    obtenerExperiencia
 }
