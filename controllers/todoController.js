@@ -21,7 +21,7 @@ const crearTodo = (req, res) => {
 const obtenerTodos = (req, res) => {
     ToDoS.find({}, (err, todos) => {
         if (err) {
-            res.status(400).send({ message: `Error al obtener los ToDos` });
+            res.status(400).send({ "mensaje": `Error al obtener los ToDos` });
         }
         if (todos) {
             res.send({ "mensaje": "Se han obtenido los ToDos", "ToDos": todos });
@@ -29,7 +29,24 @@ const obtenerTodos = (req, res) => {
     })
 }
 
+const obtenerTodo = (req, res) => {
+    const { id } = req.params;
+    ToDoS.findById(id, (err, todo) => {
+        if (err) {
+            res.status(400).send({ "mensaje": `Error al obtener el ToDo` });
+        }
+        if (!todo) {
+            res.status(400).send({ "mensaje": `No existe el ToDo` });
+        }
+        if (todo) {
+            res.send({ "mensaje": "Se ha obtenido el ToDo", "ToDo": todo });
+        }
+    })
+}
+
+
 module.exports = {
     crearTodo,
-    obtenerTodos
+    obtenerTodos,
+    obtenerTodo
 }
