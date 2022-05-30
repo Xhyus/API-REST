@@ -89,11 +89,27 @@ const obtenerLibrosPorAutor = (req, res) => {
     })
 }
 
+const obtenerLibroPorTitulo = (req, res) => {
+    const { titulo } = req.params;
+    Libros.find({ titulo }, (err, libros) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener libros" })
+        }
+        if (!libros) {
+            res.status(404).send({ "mensaje": "Libros no encontrados" })
+        }
+        if (libros) {
+            res.status(200).send({ "mensaje": "Libros obtenidos", "libros": libros })
+        }
+    })
+}
+
 module.exports = {
     registrarLibro,
     obtenerLibros,
     obtenerLibro,
     actualizarLibro,
     eliminarLibro,
-    obtenerLibrosPorAutor
+    obtenerLibrosPorAutor,
+    obtenerLibroPorTitulo
 }
