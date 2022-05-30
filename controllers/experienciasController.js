@@ -19,6 +19,18 @@ const registrarExperiencia = (req, res) => {
     });
 }
 
+const obtenerExperiencias = (req, res) => {
+    Experiencias.find({}, (err, experiencias) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener experiencias" });
+        }
+        if (experiencias) {
+            res.status(200).send({ "mensaje": "Experiencias obtenidas", "experiencias": experiencias });
+        }
+    });
+}
+
 module.exports = {
-    registrarExperiencia
+    registrarExperiencia,
+    obtenerExperiencias
 }
