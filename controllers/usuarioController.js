@@ -104,6 +104,23 @@ const eliminarUsuario = (req, res) => {
     })
 }
 
+const login = async (req, res) => {
+    const { email, password } = req.body
+    const usuario = await Usuarios.findOne({ email })
+    if (!usuario) {
+        res.status(404).send({ "mensaje": "No existe usuario" })
+    }
+    if (usuario) {
+        const validPass = await bcrypt.compare(password, usuario.password)
+        if (!validPass) {
+            res.status(401).send({ "mensaje": "Contraseña incorrecta" })
+        }
+        if (validPass) {
+            res.status(200).send({ message: 'Contraseña correcta', 'token': servicio.createToken(usuario), id: usuario._id })
+        }
+    }
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuarios,
@@ -111,5 +128,6 @@ module.exports = {
     obtenerUsuariosPopulate,
     obtenerUsuarioPopulate,
     actualizarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    login
 }
