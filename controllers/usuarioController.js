@@ -32,7 +32,23 @@ const obtenerUsuarios = (req, res) => {
     })
 }
 
+const obtenerUsuario = (req, res) => {
+    const { id } = req.params
+    Usuarios.findById(id, (err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener usuario" })
+        }
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
+        }
+        if (usuario) {
+            res.status(200).send({ "mensaje": "Usuario obtenido", "usuario": usuario })
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
-    obtenerUsuarios
+    obtenerUsuarios,
+    obtenerUsuario
 }
