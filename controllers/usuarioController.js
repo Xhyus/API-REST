@@ -47,8 +47,20 @@ const obtenerUsuario = (req, res) => {
     })
 }
 
+const obtenerUsuariosPopulate = (req, res) => {
+    Usuarios.find({}).populate('Experiencias ToDo').exec((err, usuarios) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener usuarios" })
+        }
+        if (usuarios) {
+            res.status(200).send({ "mensaje": "Usuarios obtenidos", "usuarios": usuarios });
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuarios,
-    obtenerUsuario
+    obtenerUsuario,
+    obtenerUsuariosPopulate,
 }
