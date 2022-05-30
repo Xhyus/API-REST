@@ -41,8 +41,25 @@ const obtenerIdioma = (req, res) => {
     })
 }
 
+const actualizarIdioma = (req, res) => {
+    const { id } = req.params;
+    const { nombreIdioma } = req.body;
+    Idiomas.findByIdAndUpdate(id, { nombreIdioma }, (err, idioma) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al actualizar idioma" });
+        }
+        if (!idioma) {
+            res.status(404).send({ "mensaje": "Idioma no encontrado" });
+        }
+        if (idioma) {
+            res.status(200).send({ "mensaje": "Idioma actualizado", "idioma": idioma });
+        }
+    })
+}
+
 module.exports = {
     registrarIdioma,
     obtenerIdiomas,
-    obtenerIdioma
+    obtenerIdioma,
+    actualizarIdioma
 }
