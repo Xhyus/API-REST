@@ -71,10 +71,26 @@ const obtenerExperienciaPopulate = (req, res) => {
     })
 }
 
+const actualizarExperiencia = (req, res) => {
+    const { id } = req.params
+    Experiencias.findByIdAndUpdate(id, req.body, (err, experiencia) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al actualizar experiencia" })
+        }
+        if (!experiencia) {
+            res.status(404).send({ "mensaje": "No existe experiencia" })
+        }
+        if (experiencia) {
+            res.status(200).send({ "mensaje": "Experiencia actualizada", "experiencia": experiencia });
+        }
+    })
+}
+
 module.exports = {
     registrarExperiencia,
     obtenerExperiencias,
     obtenerExperiencia,
     obtenerExperienciasPopulate,
     obtenerExperienciaPopulate,
+    actualizarExperiencia
 }
