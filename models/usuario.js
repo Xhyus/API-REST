@@ -17,7 +17,7 @@ const usuarioSchema = new Schema({
         type: String,
         required: true
     },
-    experiencia: {
+    experiencias: {
         type: Schema.Types.ObjectId,
         ref: 'Experiencia'
     },
