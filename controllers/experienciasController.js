@@ -37,7 +37,7 @@ const obtenerExperiencia = (req, res) => {
             res.status(400).send({ "mensaje": "Error al obtener experiencia" })
         }
         if (!experiencia) {
-            res.status(400).send({ "mensaje": "No existe experiencia" })
+            res.status(404).send({ "mensaje": "No existe experiencia" })
         }
         if (experiencia) {
             res.status(200).send({ "mensaje": "Experiencia obtenida", "experiencia": experiencia })
@@ -56,9 +56,25 @@ const obtenerExperienciasPopulate = (req, res) => {
     })
 }
 
+const obtenerExperienciaPopulate = (req, res) => {
+    const { id } = req.params
+    Experiencias.findById(id).populate('Lenguaje Idioma').exec((err, experiencia) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener experiencia" })
+        }
+        if (!experiencia) {
+            res.status(404).send({ "mensaje": "No existe experiencia" })
+        }
+        if (experiencia) {
+            res.status(200).send({ "mensaje": "Experiencia obtenida", "experiencia": experiencia });
+        }
+    })
+}
+
 module.exports = {
     registrarExperiencia,
     obtenerExperiencias,
     obtenerExperiencia,
     obtenerExperienciasPopulate,
+    obtenerExperienciaPopulate,
 }
