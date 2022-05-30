@@ -1,4 +1,4 @@
-const Experiencias = require('../models/experiencias')
+const Experiencias = require('../models/experiencia')
 
 const registrarExperiencia = (req, res) => {
     const { nombreExperiencia, descripcionExperiencia, fechaInicioExperiencia, fechaFinExperiencia, lugarExperiencia } = req.body;

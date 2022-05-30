@@ -1,4 +1,4 @@
-const Lenguajes = require('../models/lenguajeModel');
+const Lenguajes = require('../models/lenguaje');
 
 const registrarLenguaje = (req, res) => {
     const { nombreLenguaje } = req.body;
