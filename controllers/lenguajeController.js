@@ -26,7 +26,23 @@ const obtenerLenguajes = (req, res) => {
     });
 }
 
+const obtenerLenguaje = (req, res) => {
+    const { id } = req.params;
+    Lenguajes.findById(id, (err, lenguaje) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al obtener lenguaje" });
+        }
+        if (!lenguaje) {
+            res.status(404).send({ "mensaje": "Lenguaje no encontrado" });
+        }
+        if (lenguaje) {
+            res.status(200).send({ "mensaje": "Lenguaje obtenido", "lenguaje": lenguaje });
+        }
+    })
+}
+
 module.exports = {
     registrarLenguaje,
-    obtenerLenguajes
+    obtenerLenguajes,
+    obtenerLenguaje,
 }
