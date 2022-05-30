@@ -75,7 +75,8 @@ const obtenerUsuarioPopulate = (req, res) => {
 
 const actualizarUsuario = (req, res) => {
     const { id } = req.params
-    Usuarios.findByIdAndUpdate(id, req.body, (err, usuario) => {
+    const { nombre, apellido, email, experiencias, todo } = req.body
+    Usuarios.findByIdAndUpdate(id, { nombre, apellido, email, experiencias, todo }, (err, usuario) => {
         if (err) {
             res.status(400).send({ "mensaje": "Error al actualizar usuario" })
         }
@@ -88,11 +89,27 @@ const actualizarUsuario = (req, res) => {
     })
 }
 
+const eliminarUsuario = (req, res) => {
+    const { id } = req.params
+    Usuarios.findByIdAndDelete(id, (err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al eliminar usuario" })
+        }
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
+        }
+        if (usuario) {
+            res.status(200).send({ "mensaje": "Usuario eliminado", "usuario": usuario })
+        }
+    })
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuarios,
     obtenerUsuario,
     obtenerUsuariosPopulate,
     obtenerUsuarioPopulate,
-    actualizarUsuario
+    actualizarUsuario,
+    eliminarUsuario
 }
