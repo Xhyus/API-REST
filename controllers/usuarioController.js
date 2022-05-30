@@ -106,20 +106,62 @@ const eliminarUsuario = (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body
-    const usuario = await Usuarios.findOne({ email })
-    if (!usuario) {
-        res.status(404).send({ "mensaje": "No existe usuario" })
-    }
-    if (usuario) {
-        const validPass = await bcrypt.compare(password, usuario.password)
-        if (!validPass) {
-            res.status(401).send({ "mensaje": "Contraseña incorrecta" })
+    await Usuarios.findOne({ email }, (err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al iniciar sesión" })
         }
-        if (validPass) {
-            res.status(200).send({ message: 'Contraseña correcta', 'token': servicio.createToken(usuario), id: usuario._id })
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
         }
-    }
+        if (usuario) {
+            const validPass = await bcrypt.compare(password, usuario.password)
+            if (!validPass) {
+                res.status(401).send({ "mensaje": "Contraseña incorrecta" })
+            }
+            if (validPass) {
+                res.status(200).send({ message: 'Contraseña correcta', 'token': servicio.createToken(usuario), id: usuario._id })
+            }
+        }
+    })
 }
+
+const cambiarPassword = async (req, res) => {
+    const { email, password } = req.body
+    const { newPassword } = req.body
+    await Usuarios.findOne({ email }, (err, usuario) => {
+        if (err) {
+            res.status(400).send({ "mensaje": "Error al iniciar sesión" })
+        }
+        if (!usuario) {
+            res.status(404).send({ "mensaje": "No existe usuario" })
+        }
+        if (usuario) {
+            if (usuario.password === password) {
+                res.status(400).send({ "mensaje": "La contraseña no puede ser igual a la anterior" })
+            }
+            const validPass = bcrypt.compare(password, usuario.password)
+            if (!validPass) {
+                res.status(401).send({ "mensaje": "Contraseña incorrecta" })
+            }
+            if (validPass) {
+                const salt = bcrypt.genSaltSync(10)
+                const hash = bcrypt.hashSync(password, salt)
+                Usuarios.findByIdAndUpdate(usuario._id, { password: hash }, (err, usuario) => {
+                    if (err) {
+                        res.status(400).send({ "mensaje": "Error al actualizar contraseña" })
+                    }
+                    if (!usuario) {
+                        res.status(404).send({ "mensaje": "No existe usuario" })
+                    }
+                    if (usuario) {
+                        res.status(200).send({ "mensaje": "Contraseña actualizada", "usuario": usuario })
+                    }
+                })
+            }
+        }
+    })
+}
+
 
 module.exports = {
     crearUsuario,
@@ -129,5 +171,6 @@ module.exports = {
     obtenerUsuarioPopulate,
     actualizarUsuario,
     eliminarUsuario,
-    login
+    login,
+    cambiarPassword
 }
