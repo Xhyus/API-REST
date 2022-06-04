@@ -3,6 +3,13 @@ const mongoose = require('mongoose')
 const cors = require('cors');
 require('dotenv').config();
 
+const experienciasRoutes = require('./routes/experienciasRoutes')
+const idiomaRoutes = require('./routes/idiomaRoutes')
+const usuarioRoutes = require('./routes/usuarioRoutes')
+const lenguajeRoutes = require('./routes/lenguajeRoutes')
+const todoRoutes = require('./routes/todoRoutes')
+const libroRoutes = require('./routes/libroRoutes')
+
 const app = express()
 app.use(cors())
 app.use(express.json())

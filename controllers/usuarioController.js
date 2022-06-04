@@ -115,7 +115,7 @@ const login = async (req, res) => {
             res.status(404).send({ "mensaje": "No existe usuario" })
         }
         if (usuario) {
-            const validPass = await bcrypt.compare(password, usuario.password)
+            let validPass = bcrypt.compare(password, usuario.password)
             if (!validPass) {
                 res.status(401).send({ "mensaje": "Contraseña incorrecta" })
             }
@@ -128,7 +128,6 @@ const login = async (req, res) => {
 
 const cambiarPassword = async (req, res) => {
     const { email, password } = req.body
-    const { newPassword } = req.body
     await Usuarios.findOne({ email }, (err, usuario) => {
         if (err) {
             res.status(400).send({ "mensaje": "Error al iniciar sesión" })
@@ -137,13 +136,13 @@ const cambiarPassword = async (req, res) => {
             res.status(404).send({ "mensaje": "No existe usuario" })
         }
         if (usuario) {
-            const validPass = bcrypt.compare(password, usuario.password)
+            let validPass = bcrypt.compare(password, usuario.password)
             if (!validPass) {
                 res.status(401).send({ "mensaje": "Contraseña incorrecta" })
             }
             if (validPass) {
-                const salt = bcrypt.genSaltSync(10)
-                const hash = bcrypt.hashSync(password, salt)
+                let salt = bcrypt.genSaltSync(10)
+                let hash = bcrypt.hashSync(password, salt)
                 Usuarios.findByIdAndUpdate(usuario._id, { password: hash }, (err, usuario) => {
                     if (err) {
                         res.status(400).send({ "mensaje": "Error al actualizar contraseña" })
